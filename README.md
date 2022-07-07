@@ -5,4 +5,4 @@
 - Gson
 - Coroutines
 - Lifecycle
-- ([Timber](https://github.com/JakeWharton/timber))
+- [Timber](https://github.com/JakeWharton/timber)

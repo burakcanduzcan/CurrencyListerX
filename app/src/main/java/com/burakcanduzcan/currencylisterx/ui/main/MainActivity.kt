@@ -2,13 +2,11 @@ package com.burakcanduzcan.currencylisterx.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.burakcanduzcan.currencylisterx.BuildConfig
 import com.burakcanduzcan.currencylisterx.R
 import com.burakcanduzcan.currencylisterx.databinding.ActivityMainBinding
-import com.burakcanduzcan.currencylisterx.ui.market.MarketFragment
-import com.burakcanduzcan.currencylisterx.ui.portfolio.PortfolioFragment
-import com.burakcanduzcan.currencylisterx.ui.updates.UpdatesFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupTimber()
-        initializeViews()
+        setupNavigationComponent()
     }
 
     private fun setupTimber() {
@@ -30,38 +28,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeViews() {
-        binding.bottomNavView.setOnItemSelectedListener { item ->
-            //todo: fragment transition animations
-            when (item.itemId) {
-                R.id.page1 -> {
-                    Timber.i("Item1 selection")
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainerView, MarketFragment()).commit()
-                    true
-                }
-                R.id.page2 -> {
-                    Timber.i("Item2 selection")
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainerView, PortfolioFragment()).commit()
-                    true
-                }
-                R.id.page3 -> {
-                    Timber.i("Item3 selection")
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainerView, UpdatesFragment()).commit()
-                    true
-                }
-                else -> {
-                    Timber.e("Invalid selection")
-                    false
-                }
-            }
-        }
-
-        //manual navigation item selection:
-        // might be required for certain triggers but triggers only
-        // such as fragment transaction
-        binding.bottomNavView.selectedItemId = R.id.page1
+    private fun setupNavigationComponent() {
+        //getting navController from fragmentContainerView, registered as NavHostFragment
+        val navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)!!
+            .findNavController()
+        //setting up bottomNavigationView with Navigation Component
+        binding.bottomNavView.setupWithNavController(navController)
     }
 }

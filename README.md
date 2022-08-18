@@ -9,3 +9,6 @@
 - [Glide](https://github.com/bumptech/glide)
 - Hilt
 - Navigation Component (with Safe Args plugin)
+
+## Credits
+Data provided by [CoinGecko](https://www.coingecko.com/en/api)

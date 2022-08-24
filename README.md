@@ -9,3 +9,9 @@
 - [Glide](https://github.com/bumptech/glide)
 - Hilt
 - Navigation Component (with Safe Args plugin)
+- [RSS-Parser](https://github.com/prof18/RSS-Parser)
+
+## Credits
+Market data provided by [CoinGecko](https://www.coingecko.com/en/api)
+
+News RSS of [Cointelegraph](https://cointelegraph.com/rss-feeds)

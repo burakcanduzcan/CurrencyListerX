@@ -22,24 +22,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Coin"
-        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText" />
+        tools:text="Coin" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvExchange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="COI/TRY"
+        android:layout_marginTop="-4dp"
         android:textColor="@color/gray"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:ignore="HardcodedText" />
+        tools:text="COI/TRY" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvPrice"
@@ -47,34 +45,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="0"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText" />
+        tools:text="0" />
 
     <ImageView
         android:id="@+id/ivChangeIndicator"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_marginEnd="-4dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvChangePercentage"
         app:layout_constraintEnd_toStartOf="@+id/tvChangePercentage"
         app:layout_constraintTop_toTopOf="@+id/tvChangePercentage"
-        app:srcCompat="@drawable/ic_sharp_arrow_drop_up_24"
-        tools:ignore="ContentDescription,ImageContrastCheck" />
+        tools:ignore="ContentDescription,ImageContrastCheck"
+        tools:srcCompat="@drawable/ic_sharp_arrow_drop_up_24" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvChangePercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:text="0.00"
-        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPrice"
-        tools:ignore="HardcodedText" />
+        tools:text="0.00" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

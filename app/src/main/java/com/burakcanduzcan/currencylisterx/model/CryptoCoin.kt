@@ -56,3 +56,9 @@ data class CryptoCoin(
     @SerializedName("roi")
     val roi: Roi? = null,
 )
+
+data class Roi(
+    val times: Double = 0.0,
+    val currency: String = "",
+    val percentage: Double = 0.0,
+)

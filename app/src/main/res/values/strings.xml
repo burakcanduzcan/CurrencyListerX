@@ -3,4 +3,6 @@
     <string name="Market">Market</string>
     <string name="Portfolio">Portfolio</string>
     <string name="Updates">Updates</string>
+    <string name="exchange_s_s">%1$s/%2$s</string>
+    <string name="percentage_s">%1$s%%</string>
 </resources>

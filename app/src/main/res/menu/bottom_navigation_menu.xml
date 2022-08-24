@@ -6,17 +6,16 @@
         android:icon="@drawable/ic_baseline_align_vertical_bottom_24"
         android:menuCategory="secondary"
         android:title="@string/Market" />
-
     <item
         android:id="@+id/portfolioFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_savings_24"
+        android:icon="@drawable/ic_baseline_account_balance_24"
         android:menuCategory="secondary"
         android:title="@string/Portfolio" />
     <item
         android:id="@+id/updatesFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_tips_and_updates_24"
+        android:icon="@drawable/ic_baseline_newspaper_24"
         android:menuCategory="secondary"
         android:title="@string/Updates" />
 </menu>

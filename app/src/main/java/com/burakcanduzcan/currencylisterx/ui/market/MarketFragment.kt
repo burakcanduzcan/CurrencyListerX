@@ -36,6 +36,7 @@ class MarketFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("MarketFragment onResume")
+        autoSelectToggleButton()
     }
 
     private fun initializeViews() {
@@ -100,5 +101,19 @@ class MarketFragment : Fragment() {
         binding.rvTodos.adapter = coinListAdapter
         binding.rvTodos.layoutManager = LinearLayoutManager(requireContext())
         coinListAdapter.notifyDataSetChanged()
+    }
+
+    private fun autoSelectToggleButton() {
+        when (PriceUtil.CURRENCY) {
+            "USD" -> {
+                binding.toggleButton.check(R.id.btnToggle1)
+            }
+            "EUR" -> {
+                binding.toggleButton.check(R.id.btnToggle2)
+            }
+            "TRY" -> {
+                binding.toggleButton.check(R.id.btnToggle3)
+            }
+        }
     }
 }

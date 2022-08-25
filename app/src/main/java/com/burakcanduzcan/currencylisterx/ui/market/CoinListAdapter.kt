@@ -55,7 +55,6 @@ class CoinListAdapter(private val context: Context) :
             setPriceChangeViews(coin.priceChangePercentage24H)
         }
 
-        //todo: move this code block to a util
         private fun setPriceChangeViews(priceChangePercentage: Double) {
             var tmpPriceChangePercentage = priceChangePercentage
 

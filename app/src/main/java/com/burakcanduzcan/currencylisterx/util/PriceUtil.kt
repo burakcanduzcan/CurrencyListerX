@@ -1,7 +1,7 @@
 package com.burakcanduzcan.currencylisterx.util
 
 object PriceUtil {
-    var CURRENCY: String = "TRY"
+    var CURRENCY: String = "USD"
 
     fun updateDecimalPartOfPrice(price: String): String {
         if (price.substringAfter('.').length == 1) {

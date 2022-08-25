@@ -17,7 +17,9 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MarketFragment : Fragment() {
 
-    private lateinit var binding: FragmentMarketBinding
+    private var _binding: FragmentMarketBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: MarketViewModel by viewModels()
     private lateinit var coinListAdapter: CoinListAdapter
 
@@ -25,7 +27,7 @@ class MarketFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentMarketBinding.inflate(inflater)
+        _binding = FragmentMarketBinding.inflate(inflater)
 
         Timber.i("MarketFragment onCreateView")
         initializeViews()
@@ -37,6 +39,11 @@ class MarketFragment : Fragment() {
         super.onResume()
         Timber.i("MarketFragment onResume")
         autoSelectToggleButton()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initializeViews() {

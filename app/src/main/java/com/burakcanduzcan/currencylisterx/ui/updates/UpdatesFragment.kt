@@ -18,7 +18,9 @@ import timber.log.Timber
 @AndroidEntryPoint
 class UpdatesFragment : Fragment() {
 
-    private lateinit var binding: FragmentUpdatesBinding
+    private var _binding: FragmentUpdatesBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: UpdatesViewModel by viewModels()
     private lateinit var newsAdapter: NewsAdapter
 
@@ -26,7 +28,7 @@ class UpdatesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentUpdatesBinding.inflate(inflater)
+        _binding = FragmentUpdatesBinding.inflate(inflater)
 
         Timber.i("UpdatesFragment onCreateView")
         initializeViews()
@@ -37,6 +39,13 @@ class UpdatesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("UpdatesFragment onResume")
+        Timber.i("Last clicked tab is ${viewModel.currentNewsSource}")
+        autoSelectTabItem()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initializeViews() {
@@ -46,15 +55,18 @@ class UpdatesFragment : Fragment() {
                 when (binding.tabLayout.selectedTabPosition) {
                     0 -> {
                         Timber.i("News tab selected: Cointelegraph")
-                        viewModel.getLatestNews("Cointelegraph")
+                        viewModel.setNewsSource("Cointelegraph")
+                        viewModel.getLatestNews()
                     }
                     1 -> {
                         Timber.i("News tab selected: CoinDesk")
-                        viewModel.getLatestNews("CoinDesk")
+                        viewModel.setNewsSource("CoinDesk")
+                        viewModel.getLatestNews()
                     }
                     2 -> {
                         Timber.i("News tab selected: CoinJournal")
-                        viewModel.getLatestNews("CoinJournal")
+                        viewModel.setNewsSource("CoinJournal")
+                        viewModel.getLatestNews()
                     }
                 }
             }
@@ -64,7 +76,6 @@ class UpdatesFragment : Fragment() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
-
         })
         //recyclerView
         binding.rvNews.apply {
@@ -84,5 +95,19 @@ class UpdatesFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         startActivity(intent)
+    }
+
+    private fun autoSelectTabItem() {
+        when (viewModel.currentNewsSource) {
+            "Cointelegraph" -> {
+                binding.tabLayout.getTabAt(0)!!.select()
+            }
+            "CoinDesk" -> {
+                binding.tabLayout.getTabAt(1)!!.select()
+            }
+            "CoinJournal" -> {
+                binding.tabLayout.getTabAt(2)!!.select()
+            }
+        }
     }
 }

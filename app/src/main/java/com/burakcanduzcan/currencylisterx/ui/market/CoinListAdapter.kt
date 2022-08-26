@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.burakcanduzcan.currencylisterx.R
 import com.burakcanduzcan.currencylisterx.databinding.ItemCryptoCoinBinding
 import com.burakcanduzcan.currencylisterx.model.CryptoCoinUiModel
-import com.burakcanduzcan.currencylisterx.util.PriceUtil
+import com.burakcanduzcan.currencylisterx.util.Globals
 import com.burakcanduzcan.currencylisterx.util.PriceUtil.updateDecimalPartOfPrice
 
 
@@ -46,7 +46,7 @@ class CoinListAdapter(private val context: Context) :
             //currency exchange
             binding.tvExchange.text = context.getString(R.string.exchange_s_s,
                 coin.symbol.uppercase(),
-                PriceUtil.CURRENCY)
+                Globals.CURRENCY)
 
             //current price
             binding.tvPrice.text = updateDecimalPartOfPrice(coin.currentPrice.toString())

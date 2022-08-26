@@ -1,8 +1,6 @@
 package com.burakcanduzcan.currencylisterx.util
 
 object PriceUtil {
-    var CURRENCY: String = "USD"
-
     fun updateDecimalPartOfPrice(price: String): String {
         if (price.substringAfter('.').length == 1) {
             return "${price}0"

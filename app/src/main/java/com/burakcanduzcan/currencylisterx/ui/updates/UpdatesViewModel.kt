@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.burakcanduzcan.currencylisterx.util.Globals
 import com.prof.rssparser.Article
 import com.prof.rssparser.Channel
 import com.prof.rssparser.Parser
@@ -16,16 +17,17 @@ import javax.inject.Inject
 class UpdatesViewModel @Inject constructor(
     private val parser: Parser,
 ) : ViewModel() {
+
     private val _articleList = MutableLiveData<List<Article>>()
     val articleList: LiveData<List<Article>> = _articleList
 
     init {
-        getLatestNews("Cointelegraph")
+        getLatestNews()
     }
 
-    fun getLatestNews(source: String) {
+    fun getLatestNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            when (source) {
+            when (Globals.NEWSSOURCE) {
                 "Cointelegraph" -> {
                     val channel: Channel =
                         parser.getChannel(url = "https://cointelegraph.com/rss")

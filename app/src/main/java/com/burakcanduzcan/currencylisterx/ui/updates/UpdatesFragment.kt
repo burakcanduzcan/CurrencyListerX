@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.burakcanduzcan.currencylisterx.databinding.FragmentUpdatesBinding
+import com.burakcanduzcan.currencylisterx.util.Globals
 import com.google.android.material.tabs.TabLayout
 import com.prof.rssparser.Article
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,7 @@ class UpdatesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Timber.i("UpdatesFragment onResume")
-        Timber.i("Last clicked tab is ${viewModel.currentNewsSource}")
+        Timber.i("Last clicked tab is ${Globals.NEWSSOURCE}")
         autoSelectTabItem()
     }
 
@@ -55,17 +56,17 @@ class UpdatesFragment : Fragment() {
                 when (binding.tabLayout.selectedTabPosition) {
                     0 -> {
                         Timber.i("News tab selected: Cointelegraph")
-                        viewModel.setNewsSource("Cointelegraph")
+                        Globals.NEWSSOURCE = "Cointelegraph"
                         viewModel.getLatestNews()
                     }
                     1 -> {
                         Timber.i("News tab selected: CoinDesk")
-                        viewModel.setNewsSource("CoinDesk")
+                        Globals.NEWSSOURCE = "CoinDesk"
                         viewModel.getLatestNews()
                     }
                     2 -> {
                         Timber.i("News tab selected: CoinJournal")
-                        viewModel.setNewsSource("CoinJournal")
+                        Globals.NEWSSOURCE = "CoinJournal"
                         viewModel.getLatestNews()
                     }
                 }
@@ -98,7 +99,7 @@ class UpdatesFragment : Fragment() {
     }
 
     private fun autoSelectTabItem() {
-        when (viewModel.currentNewsSource) {
+        when (Globals.NEWSSOURCE) {
             "Cointelegraph" -> {
                 binding.tabLayout.getTabAt(0)!!.select()
             }

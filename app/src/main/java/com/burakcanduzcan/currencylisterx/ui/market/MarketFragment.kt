@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.burakcanduzcan.currencylisterx.R
 import com.burakcanduzcan.currencylisterx.databinding.FragmentMarketBinding
-import com.burakcanduzcan.currencylisterx.util.PriceUtil
+import com.burakcanduzcan.currencylisterx.util.Globals
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -94,8 +94,8 @@ class MarketFragment : Fragment() {
     private fun toggleSelection(newCurrency: String) {
         Timber.i("Toggle group: selected currency $newCurrency")
         //change current currency to selected currency
-        PriceUtil.CURRENCY = newCurrency
-        Timber.i("Global CURRENCY: ${PriceUtil.CURRENCY}")
+        Globals.CURRENCY = newCurrency
+        Timber.i("Global CURRENCY: ${Globals.CURRENCY}")
         //re-fetch data from api with updated currency parameter
         viewModel.refresh()
         resetRecyclerView()
@@ -111,7 +111,7 @@ class MarketFragment : Fragment() {
     }
 
     private fun autoSelectToggleButton() {
-        when (PriceUtil.CURRENCY) {
+        when (Globals.CURRENCY) {
             "USD" -> {
                 binding.toggleButton.check(R.id.btnToggle1)
             }

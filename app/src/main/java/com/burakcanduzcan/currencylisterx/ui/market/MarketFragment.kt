@@ -1,39 +1,21 @@
 package com.burakcanduzcan.currencylisterx.ui.market
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.burakcanduzcan.currencylisterx.R
+import com.burakcanduzcan.currencylisterx.core.BaseFragment
 import com.burakcanduzcan.currencylisterx.databinding.FragmentMarketBinding
 import com.burakcanduzcan.currencylisterx.util.Globals
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MarketFragment : Fragment() {
+class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding::inflate) {
 
-    private var _binding: FragmentMarketBinding? = null
-    private val binding get() = _binding!!
-
-    private val viewModel: MarketViewModel by viewModels()
+    override val viewModel: MarketViewModel by viewModels()
     private lateinit var coinListAdapter: CoinListAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentMarketBinding.inflate(inflater)
-
-        Timber.i("MarketFragment onCreateView")
-        initializeViews()
-
-        return binding.root
-    }
 
     override fun onResume() {
         super.onResume()
@@ -41,12 +23,9 @@ class MarketFragment : Fragment() {
         autoSelectToggleButton()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    override fun initializeViews() {
+        Timber.i("MarketFragment onCreateView")
 
-    private fun initializeViews() {
         //toggle group
         binding.toggleButton.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {

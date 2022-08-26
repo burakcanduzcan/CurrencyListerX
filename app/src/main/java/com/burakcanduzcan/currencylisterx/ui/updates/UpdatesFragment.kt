@@ -2,13 +2,9 @@ package com.burakcanduzcan.currencylisterx.ui.updates
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.burakcanduzcan.currencylisterx.core.BaseFragment
 import com.burakcanduzcan.currencylisterx.databinding.FragmentUpdatesBinding
 import com.burakcanduzcan.currencylisterx.util.Globals
 import com.google.android.material.tabs.TabLayout
@@ -17,25 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class UpdatesFragment : Fragment() {
+class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>(FragmentUpdatesBinding::inflate) {
 
-    private var _binding: FragmentUpdatesBinding? = null
-    private val binding get() = _binding!!
-
-    private val viewModel: UpdatesViewModel by viewModels()
+    override val viewModel: UpdatesViewModel by viewModels()
     private lateinit var newsAdapter: NewsAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentUpdatesBinding.inflate(inflater)
-
-        Timber.i("UpdatesFragment onCreateView")
-        initializeViews()
-
-        return binding.root
-    }
 
     override fun onResume() {
         super.onResume()
@@ -44,12 +25,8 @@ class UpdatesFragment : Fragment() {
         autoSelectTabItem()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun initializeViews() {
+    override fun initializeViews() {
+        Timber.i("UpdatesFragment onCreateView")
         //tabLayout
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {

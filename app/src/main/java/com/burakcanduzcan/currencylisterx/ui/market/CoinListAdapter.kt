@@ -49,7 +49,7 @@ class CoinListAdapter(private val context: Context) :
                 Globals.CURRENCY)
 
             //current price
-            binding.tvPrice.text = updateDecimalPartOfPrice(coin.currentPrice.toString())
+            binding.tvPrice.text = updateDecimalPartOfPrice(coin.currentPrice.toString()).toBigDecimal().toPlainString()
 
             //24 hours price change indicator and percentage
             setPriceChangeViews(coin.priceChangePercentage24H)

@@ -2,14 +2,15 @@
 
 ## Tech Stack
 - MVVM
-- [Retrofit](https://github.com/square/retrofit)
-- [Gson](https://github.com/google/gson)
-- Coroutines
-- [Timber](https://github.com/JakeWharton/timber)
-- [Glide](https://github.com/bumptech/glide)
-- Hilt
+- Base classes
+- Hilt for dependency injection
 - Navigation Component (with Safe Args plugin)
-- [RSS-Parser](https://github.com/prof18/RSS-Parser)
+- Timber ([link](https://github.com/JakeWharton/timber))
+- Retrofit ([link](https://github.com/square/retrofit))
+- Gson ([link](https://github.com/google/gson))
+- Coroutines
+- Glide ([link](https://github.com/bumptech/glide))
+- RSS-Parser ([link](https://github.com/prof18/RSS-Parser))
 
 ## Credits
 Market data provided by [CoinGecko](https://www.coingecko.com/en/api)

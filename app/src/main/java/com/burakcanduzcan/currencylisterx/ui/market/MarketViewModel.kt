@@ -20,7 +20,7 @@ class MarketViewModel @Inject constructor(
     val coinListLiveData: LiveData<List<CryptoCoinUiModel>> = _coinListLiveData
 
     //GET request parameters (currency is in util/PriceUtil.kt)
-    private var _perPage: Int = 20
+    private var _perPage: Int = 50
     val perPage: Int get() = _perPage
 
     private var _page: Int = 1
@@ -47,6 +47,21 @@ class MarketViewModel @Inject constructor(
             _isDataSet = false
             getCurrentCryptoCoins()
             _isDataSet = true
+        }
+    }
+
+    fun getFavoriteCoins() {
+        viewModelScope.launch {
+            //hold whole coins in a temporary list
+            val tmpList = ArrayList<CryptoCoinUiModel>()
+            //filter
+            for (coin in cryptoCoinRepository.getCoinListFromCoinGeckoAPI(Globals.CURRENCY, perPage, page)) {
+                if (Globals.FAVORITE_LIST.contains(coin.symbol.lowercase())) {
+                    tmpList.add(coin)
+                }
+            }
+            //give list that contains ONLY favorite coins to live data
+            _coinListLiveData.value = tmpList
         }
     }
 }

@@ -2,6 +2,7 @@ package com.burakcanduzcan.currencylisterx.ui.market
 
 import android.annotation.SuppressLint
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,8 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         super.onDestroyView()
         Timber.i("MarketFragment onDestroyView")
         Timber.i("MarketFragment last selected currency is ${Globals.CURRENCY}")
+        Globals.IS_FAVORITE_ON = false
+        Timber.i("MarketFragment IS_FAVORITE_ON state reverted to ${Globals.IS_FAVORITE_ON}")
     }
 
     override fun initializeViews() {
@@ -50,6 +53,26 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
                 }
             }
         }
+        //toggle favorite
+        binding.ivFavorite.setOnClickListener {
+            if (Globals.IS_FAVORITE_ON) {
+                Globals.IS_FAVORITE_ON = false
+                binding.ivFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(),
+                    R.drawable.ic_baseline_favorite_24_white))
+                //if favorite toggle is off, get regular list
+                viewModel.refresh()
+                updateProgressBar()
+                resetRecyclerView()
+            } else {
+                Globals.IS_FAVORITE_ON = true
+                binding.ivFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(),
+                    R.drawable.ic_baseline_favorite_24_red))
+                //if favorite toggle is on, get filtered list
+                viewModel.getFavoriteCoins()
+                updateProgressBar()
+                resetRecyclerView()
+            }
+        }
         //recyclerView
         binding.rvTodos.apply {
             coinListAdapter = CoinListAdapter(requireContext(), ::onCoinClick)
@@ -59,7 +82,6 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         //observe
         viewModel.coinListLiveData.observe(viewLifecycleOwner) {
             coinListAdapter.submitList(it)
-            //binding.rvTodos.adapter = coinListAdapter
             updateProgressBar()
             binding.srLayout.isRefreshing = false
         }
@@ -90,9 +112,13 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         Timber.i("MarketFragment Toggle group: selected currency $newCurrency")
         //change current currency to selected currency
         Globals.CURRENCY = newCurrency
-        Timber.i("MarketFragment Global CURRENCY: ${Globals.CURRENCY}")
-        //re-fetch data from api with updated currency parameter
-        viewModel.refresh()
+        Timber.i("MarketFragment Global CURRENCY updated to: ${Globals.CURRENCY}")
+        //re-fetch data from api with updated currency parameter or just favorite ones
+        if (Globals.IS_FAVORITE_ON) {
+            viewModel.getFavoriteCoins()
+        } else {
+            viewModel.refresh()
+        }
         resetRecyclerView()
     }
 
@@ -111,6 +137,7 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
     }
 
     private fun onCoinClick(coin: CryptoCoinUiModel) {
-        this.findNavController().navigate(MarketFragmentDirections.actionMarketFragmentToDetailFragment(coin))
+        this.findNavController()
+            .navigate(MarketFragmentDirections.actionMarketFragmentToDetailFragment(coin))
     }
 }

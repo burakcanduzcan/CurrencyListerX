@@ -9,7 +9,11 @@
         android:id="@+id/marketFragment"
         android:name="com.burakcanduzcan.currencylisterx.ui.market.MarketFragment"
         android:label="fragment_market"
-        tools:layout="@layout/fragment_market" />
+        tools:layout="@layout/fragment_market" >
+        <action
+            android:id="@+id/action_marketFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/portfolioFragment"
         android:name="com.burakcanduzcan.currencylisterx.ui.portfolio.PortfolioFragment"
@@ -20,4 +24,13 @@
         android:name="com.burakcanduzcan.currencylisterx.ui.updates.UpdatesFragment"
         android:label="fragment_updates"
         tools:layout="@layout/fragment_updates" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.burakcanduzcan.currencylisterx.ui.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="incomingCoin"
+            app:argType="com.burakcanduzcan.currencylisterx.model.CryptoCoinUiModel" />
+    </fragment>
 </navigation>

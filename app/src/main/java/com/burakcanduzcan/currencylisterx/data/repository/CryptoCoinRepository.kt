@@ -21,7 +21,10 @@ class CryptoCoinRepository @Inject constructor(
                 it.name,
                 it.image,
                 it.currentPrice,
-                it.priceChangePercentage24H
+                it.high24H,
+                it.low24H,
+                it.priceChangePercentage24H,
+                it.sparklineIn7D.price
             )
         }
     }

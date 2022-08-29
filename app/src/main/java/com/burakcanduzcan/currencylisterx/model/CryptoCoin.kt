@@ -55,6 +55,8 @@ data class CryptoCoin(
     val lastUpdated: String = "",
     @SerializedName("roi")
     val roi: Roi? = null,
+    @SerializedName("sparkline_in_7d")
+    val sparklineIn7D: SparklineIn7D
 )
 
 data class Roi(
@@ -62,3 +64,5 @@ data class Roi(
     val currency: String = "",
     val percentage: Double = 0.0,
 )
+
+data class SparklineIn7D(val price: List<Double>?)

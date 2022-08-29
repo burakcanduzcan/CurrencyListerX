@@ -57,7 +57,7 @@ class UpdatesFragment : BaseFragment<FragmentUpdatesBinding>(FragmentUpdatesBind
         })
         //recyclerView
         binding.rvNews.apply {
-            newsAdapter = NewsAdapter(::onNewsClick)
+            newsAdapter = NewsAdapter(requireContext(), ::onNewsClick)
             this.adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }

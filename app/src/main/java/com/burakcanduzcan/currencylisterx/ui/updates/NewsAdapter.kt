@@ -1,14 +1,17 @@
 package com.burakcanduzcan.currencylisterx.ui.updates
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.burakcanduzcan.currencylisterx.databinding.ItemCryptoNewsBinding
 import com.prof.rssparser.Article
 
 class NewsAdapter(
+    private val context: Context,
     private val onNewsClick: (article: Article) -> Unit,
 ) : ListAdapter<Article, NewsAdapter.NewsViewHolder>(DiffCallBack) {
 
@@ -28,11 +31,18 @@ class NewsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(article: Article) {
             binding.tvTitle.text = article.title
-            binding.tvPubDate.text = article.pubDate
+            Glide.with(context)
+                .load(article.image)
+                .into(binding.ivImage)
+            binding.tvPubDate.text = removeExtraFromPubDate(article.pubDate!!)
             binding.cvNews.setOnClickListener {
                 onNewsClick(article)
             }
         }
+    }
+
+    private fun removeExtraFromPubDate(pubDate: String): String {
+        return pubDate.substringBefore('+').trim()
     }
 
     companion object {

@@ -3,10 +3,12 @@ package com.burakcanduzcan.currencylisterx.ui.market
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.burakcanduzcan.currencylisterx.R
 import com.burakcanduzcan.currencylisterx.core.BaseFragment
 import com.burakcanduzcan.currencylisterx.databinding.FragmentMarketBinding
+import com.burakcanduzcan.currencylisterx.model.CryptoCoinUiModel
 import com.burakcanduzcan.currencylisterx.util.Globals
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -20,32 +22,37 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
     override fun onResume() {
         super.onResume()
         Timber.i("MarketFragment onResume")
-        autoSelectToggleButton()
+        autoSelectToggleButtonGroup()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.i("MarketFragment onDestroyView")
+        Timber.i("MarketFragment last selected currency is ${Globals.CURRENCY}")
     }
 
     override fun initializeViews() {
         Timber.i("MarketFragment onCreateView")
-
         //toggle group
-        binding.toggleButton.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        binding.toggleButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
                     R.id.btnToggle1 -> {
-                        toggleSelection("USD")
+                        toggleButtonGroupSelection("USD")
                     }
                     R.id.btnToggle2 -> {
-                        toggleSelection("EUR")
+                        toggleButtonGroupSelection("EUR")
 
                     }
                     R.id.btnToggle3 -> {
-                        toggleSelection("TRY")
+                        toggleButtonGroupSelection("TRY")
                     }
                 }
             }
         }
         //recyclerView
         binding.rvTodos.apply {
-            coinListAdapter = CoinListAdapter(requireContext())
+            coinListAdapter = CoinListAdapter(requireContext(), ::onCoinClick)
             adapter = coinListAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -70,16 +77,6 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         }
     }
 
-    private fun toggleSelection(newCurrency: String) {
-        Timber.i("Toggle group: selected currency $newCurrency")
-        //change current currency to selected currency
-        Globals.CURRENCY = newCurrency
-        Timber.i("Global CURRENCY: ${Globals.CURRENCY}")
-        //re-fetch data from api with updated currency parameter
-        viewModel.refresh()
-        resetRecyclerView()
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun resetRecyclerView() {
         binding.rvTodos.adapter = null
@@ -89,17 +86,31 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         coinListAdapter.notifyDataSetChanged()
     }
 
-    private fun autoSelectToggleButton() {
+    private fun toggleButtonGroupSelection(newCurrency: String) {
+        Timber.i("MarketFragment Toggle group: selected currency $newCurrency")
+        //change current currency to selected currency
+        Globals.CURRENCY = newCurrency
+        Timber.i("MarketFragment Global CURRENCY: ${Globals.CURRENCY}")
+        //re-fetch data from api with updated currency parameter
+        viewModel.refresh()
+        resetRecyclerView()
+    }
+
+    private fun autoSelectToggleButtonGroup() {
         when (Globals.CURRENCY) {
             "USD" -> {
-                binding.toggleButton.check(R.id.btnToggle1)
+                binding.toggleButtonGroup.check(R.id.btnToggle1)
             }
             "EUR" -> {
-                binding.toggleButton.check(R.id.btnToggle2)
+                binding.toggleButtonGroup.check(R.id.btnToggle2)
             }
             "TRY" -> {
-                binding.toggleButton.check(R.id.btnToggle3)
+                binding.toggleButtonGroup.check(R.id.btnToggle3)
             }
         }
+    }
+
+    private fun onCoinClick(coin: CryptoCoinUiModel) {
+        this.findNavController().navigate(MarketFragmentDirections.actionMarketFragmentToDetailFragment(coin))
     }
 }

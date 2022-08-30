@@ -1,6 +1,8 @@
 package com.burakcanduzcan.currencylisterx.ui.market
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -19,19 +21,24 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
 
     override val viewModel: MarketViewModel by viewModels()
     private lateinit var coinListAdapter: CoinListAdapter
+    private lateinit var sharedPref: SharedPreferences
+
 
     override fun onResume() {
         super.onResume()
         Timber.i("MarketFragment onResume")
         autoSelectToggleButtonGroup()
+        //build favoriteSet from sharedPreferences
+        favoriteListBump()
+        Timber.i("MarketFragment FAVORITE_LIST (re)created, size: ${Globals.FAVORITE_LIST.size}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.i("MarketFragment onDestroyView")
         Timber.i("MarketFragment last selected currency is ${Globals.CURRENCY}")
-        Globals.IS_FAVORITE_ON = false
-        Timber.i("MarketFragment IS_FAVORITE_ON state reverted to ${Globals.IS_FAVORITE_ON}")
+        Globals.IS_MARKET_FAVORITE_ON = false
+        Timber.i("MarketFragment IS_FAVORITE_ON state reverted to ${Globals.IS_MARKET_FAVORITE_ON}")
     }
 
     override fun initializeViews() {
@@ -55,18 +62,18 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         }
         //toggle favorite
         binding.ivFavorite.setOnClickListener {
-            if (Globals.IS_FAVORITE_ON) {
-                Globals.IS_FAVORITE_ON = false
-                binding.ivFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(),
-                    R.drawable.ic_baseline_favorite_24_white))
+            if (Globals.IS_MARKET_FAVORITE_ON) {
+                Globals.IS_MARKET_FAVORITE_ON = false
+                binding.ivFavorite.setColorFilter(ContextCompat.getColor(requireContext(),
+                    R.color.white))
                 //if favorite toggle is off, get regular list
                 viewModel.refresh()
                 updateProgressBar()
                 resetRecyclerView()
             } else {
-                Globals.IS_FAVORITE_ON = true
-                binding.ivFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(),
-                    R.drawable.ic_baseline_favorite_24_red))
+                Globals.IS_MARKET_FAVORITE_ON = true
+                binding.ivFavorite.setColorFilter(ContextCompat.getColor(requireContext(),
+                    R.color.red))
                 //if favorite toggle is on, get filtered list
                 viewModel.getFavoriteCoins()
                 updateProgressBar()
@@ -113,10 +120,12 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
         //change current currency to selected currency
         Globals.CURRENCY = newCurrency
         Timber.i("MarketFragment Global CURRENCY updated to: ${Globals.CURRENCY}")
-        //re-fetch data from api with updated currency parameter or just favorite ones
-        if (Globals.IS_FAVORITE_ON) {
+        //re-fetch data from api with updated currency parameter
+        if (Globals.IS_MARKET_FAVORITE_ON) {
+            //show favorite coins
             viewModel.getFavoriteCoins()
         } else {
+            //else, show all
             viewModel.refresh()
         }
         resetRecyclerView()
@@ -139,5 +148,12 @@ class MarketFragment : BaseFragment<FragmentMarketBinding>(FragmentMarketBinding
     private fun onCoinClick(coin: CryptoCoinUiModel) {
         this.findNavController()
             .navigate(MarketFragmentDirections.actionMarketFragmentToDetailFragment(coin))
+    }
+
+    private fun favoriteListBump() {
+        sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE)
+        val tmp: String = sharedPref.getString("favorite_list_string", "")!!
+        Globals.buildFavoriteListFromString(tmp)
     }
 }

@@ -20,13 +20,16 @@
 
     <TextView
         android:id="@+id/tvCoinName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivFavorite"
+        app:layout_constraintStart_toEndOf="@+id/ivBack"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Bitcoin"
         tools:textColor="@color/white" />
@@ -45,10 +48,10 @@
 
     <ImageView
         android:id="@+id/ivFavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/ic_baseline_favorite_border_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

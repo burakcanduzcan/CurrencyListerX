@@ -7,4 +7,5 @@
     <string name="percentage_s">%1$s%%</string>
     <string name="_24h_highest">24H Highest:</string>
     <string name="_24h_lowest">24H Lowest:</string>
+    <string name="preference_file_key">com.burakcanduzcan.currencylisterx.PREFERENCE_FILE_KEY</string>
 </resources>

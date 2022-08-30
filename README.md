@@ -2,7 +2,7 @@
 
 ## Tech Stack
 - MVVM
-- Base classes
+- Base class
 - Hilt for dependency injection
 - Navigation Component (with Safe Args plugin)
 - Timber ([link](https://github.com/JakeWharton/timber))

@@ -14,7 +14,8 @@
         android:theme="@style/Theme.CurrencyLister">
         <activity
             android:name="com.burakcanduzcan.currencylisterx.ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
